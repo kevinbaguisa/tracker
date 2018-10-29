@@ -97,7 +97,6 @@ public class Tracker extends FragmentActivity implements OnMapReadyCallback {
     }
 
     public void postToDB(){
-        JSONObject obj = new JSONObject();
 
 //        String coord = lat + ", " + lng;
         String bus_id = "testID321";
