@@ -35,11 +35,12 @@ import java.util.TimerTask;
 public class Tracker extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    Button getLocBtn;
+    Button getLocBtn, stopTrackBtn;
     ClientInstance mkClient;
     private FusedLocationProviderClient client;
     LatLng currLatLng;
     double lat, lng;
+    Timer myTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,7 @@ public class Tracker extends FragmentActivity implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
 
         getLocBtn = (Button) findViewById(R.id.btnGetLoc);
+        stopTrackBtn = (Button) findViewById(R.id.btnStopTracking);
         client = LocationServices.getFusedLocationProviderClient(this);
 
         requestPermission();
@@ -59,6 +61,14 @@ public class Tracker extends FragmentActivity implements OnMapReadyCallback {
             @Override
             public void onClick(View v) {
                 startTimer();
+                getLocBtn.setEnabled(false);
+            }
+        });
+        stopTrackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myTimer.cancel();
+                getLocBtn.setEnabled(true);
             }
         });
     }
@@ -68,7 +78,10 @@ public class Tracker extends FragmentActivity implements OnMapReadyCallback {
     }
 
     public void startTimer(){
-        Timer myTimer = new Timer();
+
+//        Timer myTimer = new Timer();
+
+        myTimer = new Timer();
 
         myTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
